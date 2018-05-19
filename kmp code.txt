@@ -1,0 +1,174 @@
+void preKMP(string pattern, int f[])
+{
+        int m = pattern.length(),k;
+        f[0] = -1;
+        for (int i = 1; i<m; i++)
+        {
+                k = f[i-1];
+                while (k>=0)
+                {
+                        if (pattern[k]==pattern[i-1])
+                                break;
+                        else
+                                k = f[k];
+                }
+                f[i] = k + 1;
+        }
+}
+  
+/*
+ * C++ Program to Implement Knuth–Morris–Pratt Algorithm (KMP)
+ */
+#include <iostream>
+#include <cstring>
+using namespace std;
+void preKMP(string pattern, int f[])
+{
+    int m = pattern.length(), k;
+    f[0] = -1;
+    for (int i = 1; i < m; i++)
+    {
+        k = f[i - 1];
+        while (k >= 0)
+        {
+            if (pattern[k] == pattern[i - 1])
+                break;
+            else
+                k = f[k];
+        }
+        f[i] = k + 1;
+    }
+}
+ 
+//check whether target string contains pattern 
+bool KMP(string pattern, string target)
+{
+    int m = pattern.length();
+    int n = target.length();
+    int f[m];     
+    preKMP(pattern, f);     
+    int i = 0;
+    int k = 0;        
+    while (i < n)
+    {
+        if (k == -1)
+        {
+            i++;
+            k = 0;
+        }
+        else if (target[i] == pattern[k])
+        {
+            i++;
+            k++;
+            if (k == m)
+                return 1;
+        }
+        else
+            k = f[k];
+    }
+    return 0;
+}
+ 
+int main()
+{
+    string tar = "san and linux training";
+    string pat = "lin";
+    if (KMP(pat, tar))
+        cout<<"'"<<pat<<"' found in string '"<<tar<<"'"<<endl;
+    else
+        cout<<"'"<<pat<<"' not found in string '"<<tar<<"'"<<endl;
+    pat = "sanfoundry";
+    if (KMP(pat, tar))
+        cout<<"'"<<pat<<"' found in string '"<<tar<<"'"<<endl;
+    else
+        cout<<"'"<<pat<<"' not found in string '"<<tar<<"'"<<endl;
+    return 0;
+}
+
+.,,,,,,,,,,/////////////////////////////////////////////////////
+the most efficient kmp written by me
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void preKMP(string pattern, int f[])
+{
+    int m=pattern.length();
+    f[0]=0;
+    int k=0;
+    for(int i=1; i<m; i++)
+    {
+
+        while(1)
+        {
+            if(pattern[k]==pattern[i])
+            {
+                f[i]=k+1;
+                k++;
+                break;
+            }
+            else
+            {
+                if(k==0)
+                {
+                    f[i]=0;
+                    break;
+                }
+                else
+                {
+                    //cout<<"ssss"<<endl;
+                    k=f[k-1];
+
+                }
+            }
+        }
+    }
+    for(int i=0; i<m; i++)
+        cout<<f[i]<<endl;
+}
+
+bool KMP(string pattern, string target)
+{
+    int m=pattern.length();
+    int n=target.length();
+    int f[m];
+    preKMP( pattern, f);
+
+    for(int i=0,k=0; i<n;)
+    {
+
+        if(pattern[k]==target[i])
+        {
+            i++;
+            k++;
+
+            if(k==m)return 1;
+        }
+        else
+        {
+            if(k==0)
+            {
+                i++;
+            }
+            else
+                k=f[k];
+
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    string tar = "acbacxabcdabxabcdacbacdabcy";
+    string pat = "acbacdabcy";
+    if(KMP(pat,tar))
+    {
+        cout<<"we got you"<<endl;
+    }
+    //int f[100];
+    //preKMP(pat,f);
+    return 0;
+}
+
+//////////////////////////////////////////////

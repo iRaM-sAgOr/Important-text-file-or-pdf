@@ -1,0 +1,58 @@
+#include <algorithm>
+#include <functional>
+#include <array>
+#include <iostream>
+ 
+int main()
+{
+    std::array<int, 10> s = {5, 7, 4, 2, 8, 6, 1, 9, 0, 3}; 
+ 
+    // sort using the default operator<
+    std::sort(s.begin(), s.end());
+    for (auto a : s) {
+        std::cout << a << " ";
+    }   
+    std::cout << '\n';
+ 
+    // sort using a standard library compare function object
+    std::sort(s.begin(), s.end(), std::greater<int>());
+    for (auto a : s) {
+        std::cout << a << " ";
+    }   
+    std::cout << '\n';
+ 
+    // sort using a custom function object
+    struct {
+        bool operator()(int a, int b) const
+        {   
+            return a < b;
+        }   
+    } customLess;
+    std::sort(s.begin(), s.end(), customLess);
+    for (auto a : s) {
+        std::cout << a << " ";
+    }   
+    std::cout << '\n';
+ 
+    // sort using a lambda expression//https://msdn.microsoft.com/en-us/library/dd293608.aspx 
+    std::sort(s.begin(), s.end(), [](int a, int b) {
+        return a > b;   
+    });
+    for (auto a : s) {
+        std::cout << a << " ";
+    } 
+    std::cout << '\n';
+}
+/////////////////////////
+sorting an vector or pair..
+sort(v.begin(), v.end(), [](auto &left, auto &right) {
+    return left.second < right.second;
+});
+/////////////////////////
+sorting an 2d pair customizing 
+sort(u + 1, u + N + 1, [](int a, int b) {
+		if (in[a].first != in[b].first) return in[a].first < in[b].first;
+		else return in[a].second > in[b].second;
+	});
+***here u array is sorted by the rules of if else conditions .here condition is applyed in the pair of in...it is a two dimentional pair
+////////////////////////////////////////////
